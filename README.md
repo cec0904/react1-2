@@ -2,7 +2,61 @@
 
 ## 3월 27일 강의
 
-내용
+### JSX의 역할
+
+JSX는 내부적으로 XML/HTML 코드를 자바스크립트로 변환합니다.
+
+React 가 createElement 함수를 사용하여 자동으로 자바스크립트로 변환해 줍니다.
+
+만일 JS 로 작업할 경우 직접 createElement 함수를 사용해야 합니다.
+
+앞으로 설명하는 코드를 보면 알 수 있지만 결국 JSX 는 가독성을 높여 주는 역할을 합니다.
+
+### JSX의 장점
+
+코드가 간결해 집니다.
+
+가독성이 향상 됩니다.
+
+Injection Attack 이라 불리는 해킹 방법을 방어함으로써 보안에 강합니다.
+
+```
+JSX 사용함
+<div>Gello, {name}</div>
+
+JSX 사용 안 함
+React.createElement('div', null, 'Hello, ${name}');
+```
+
+### JSX 사용법
+
+모든 자바스크립트 문법을 지원합니다.
+
+자바스크립트 문법에 XML과 HTML을 섞어서 사용합니다.
+
+아래 코드의 2번 라인처럼 섞어서 사용하는 것입니다.
+
+만일 html 이나 xml 에 자바스크립트 코드를 사용하고 싶으면 () 괄호를 사용합니다.
+
+```
+01 const name = "소플";
+02 const element = <h1>안녕, {name}</h1>
+03
+04 ReactDOM.render(
+05    element,
+06    document.getElementById('root')
+07 );
+```
+
+만일 태그의 속성값을 넣고 싶을 때는 다음과 같이 합니다.
+
+```
+큰 따옴표 사이에 문자열을 넣거나
+const element = <div tabIndex = "0"></div>;
+
+중괄호 사이에 자바스크립트 코드를 넣으면 됩니다.
+const element = <img src={user.avatarUrl}></img>;
+```
 
 ## 3월 20일 강의
 
