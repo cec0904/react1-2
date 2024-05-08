@@ -1,5 +1,290 @@
 # 전의찬 202030131
 
+## 5월 8일 강의
+
+## 5월 1일 강의
+
+### 훅의 규칙
+
+- 훅의 두가지 규칙
+
+1. 무조건 최상위 레벨에서만 호출해야함.
+
+따라서 반복문이나 조건문 또는 중첩된 함수들 안에서 훅을 호출하면 안됨.
+
+이 규칙에 따라서 훅은 컴포넌트가 렌더링 될 때마다 같은 순서로 호출되어야 함.
+
+2. 함수형 컴포넌트에서만 훅을 호출해야 함.
+
+따라서 일반 자바스크립트 함수에서 훅을 호출하면 안됨.
+
+훅은 함수형 컴포넌트 혹은 직접 만든 커스텀 훅에서만 호출할 수 있음.
+
+### 이벤트 처리하기
+
+1. DOM에서 클릭 이벤트를 처리하는 예제 코드
+
+```
+<button onlick="activate()">
+    Activate
+</button>
+```
+
+2. React에서 클릭 이벤트 처리하는 예제 코드
+
+```
+<button onClick={activate}>
+    Activate
+</button>
+```
+
+3. 둘의 차이점
+
+- 이벤트 이름이 onclick에서 onClick으로 변경(Camel case)
+- 전달하려는 함수는 문자열에서 함수 그대로 전달
+
+4. 이벤트가 발생했을때 해당 이벤트를 처리하는 함수를 이벤트 핸들러(Event Handler) 라고 함.
+
+5. 이벤트가 발생하는 것을 계속 듣고 있다는 의미로 이벤트 리스너(Event Listener)라고 부르기도 함.
+
+## 4월 17일 강의
+
+### 훅(Hook)
+
+훅이란 state와 생명주기 기능에 갈고리를 걸어 원하는 시점에 정해진 함수를 실행되도록 만든 함수를 의미한다.
+
+1. 클래스형 컴포넌트에서는 생성자(constructor)에서 state를 정의하고, setState() 함수를 통해 state를 업데이트함.
+
+2. 예전에 사용하던 함수형 컴포넌트는 별도로 state를 정의하거나, 컴포넌트의 생명주기에 맞춰서 어떤 코드가 실행되도록 할 수 없었음
+
+3. 함수형 컴포넌트에서도 state나 생명주기 함수의 기능을 사용하게 해주기 위해 추가된 기능이 훅(Hook)입니다.
+
+4. 함수형 컴포넌트도 훅을 사용하여 클래스형 컴포넌트의 기능을 모두 동일하게 구현할 수 있게 되었습니다.
+
+5. 훅의 이름은 모두 'use'로 시작합니다.
+
+6. 사용자 정의 훅(custom hook)을 만들 수 있으며, 이 경우에 이름은 자유롭게 할 수 있으나 'use'로 시작할 것을 권장합니다.
+
+### useState
+
+useState는 함수형 컴포넌트에서 state를 사용하기 위한 Hook
+
+첫번째 항목은 state의 이름(변수명)
+
+두번째 항목은 state의 set함수임. 즉 state를 업데이트 하는 함수
+
+함수를 호출 할 때 state의 초기값을 설정함
+
+함수의 리턴 값은 배열의 형태임
+
+```
+import React, { useState} from "react"
+
+export default function Counter(props) {
+    // let counter = 0
+    const [count, setCount] = useState(0)
+
+    return (
+        <>
+            <p>총 {count}</p>
+            <button onClick={() => setCount(count+1)}>
+                클릭
+            </button>
+        </>
+    )
+}
+```
+
+### useEffect
+
+이 함수는 사이드 이펙트를 수행하기 위한 것
+
+- useState와 함께 가장 많이 사용하는 Hook.
+
+- 영어로 side effect는 부작용을 의미하며 일반적으로 프로그래밍에서 사이드 이펙트는 '개발자가 의도하지 않은 코드가 실행되며 버그가 발생하는 것'을 말함.
+
+- 리액트에서는 효과 또는 영향을 뜻하는 effect의 의미에 가까움.
+
+- 이 작업을 이펙트라고 부르는 이유는 이 작업들이 다른 컴포넌트에 영향을 미칠 수 있으며, 렌더링 중에는 작업이 완료될 수 없기 때문임.
+
+- 클래스 컴포넌트의 생명주기 함수와 같은 기능을 하나로 통합한 기능을 제공
+
+useEffect(이펙트 함수, 의존성 배열);
+
+- useEffect()함수는 다음과 같이 사용
+
+- 첫 번째 파라미터는 이펙트 함수가 들어가고, 두 번째 파라미터로는 의존성 배열이 들어감.
+
+- 의존성 배열은 이펙트가 의존하고 있는 배열로, 배열 안에 있는 변수 중에 하나라도 값이 변경되었을 때 이펙트 함수가 실행 됨.
+
+### useMemo
+
+- useMemo() 혹은 Memoized value를 리턴하는 훅임.
+
+- 이전 계산값을 갖고 있기 때문에 연산량이 많은 작옵의 반복을 피할 수 있음.
+
+- 이 훅은 렌더링이 일어나는 동안 실행됨.
+
+- 따라서 렌더링이 일어나는 동안 실행돼서는 안될 작업은 넣으면 안됨.
+
+```
+const memoizedValue = useMemo(
+    () => {
+        // 연산량이 높은 작업을 수행하여 결과를 반환
+        return computeExpensiveValue(의존성 변수1, 의존성 변수2);
+    },
+    [의존성 변수1, 의존성 변수2]
+);
+```
+
+- useEffect에서 실행되어야 할 사이드 이펙트 같은 것임.
+
+- 다음 코드와 같이 의존성 배열을 넣지 않을 경우, 렌더링이 일어날 때마다 매번 함수가 실행됨.
+
+- 따라서 의존성 배열을 넣지 않는 것은 의미가 없음.
+
+- 만약 빈 배열을 넣게 되면 컴포넌트 마운트 시에만 함수가 실행 됨.
+
+```
+const memoizedValue = useMemo(
+    () => computeExpensiveValue(a, b)
+);
+```
+
+### useCallback
+
+- useCallback() 훅은 useMemo()와 유사한 역할을 함.
+
+- 차이점은 값이 아닌 함수를 반환한다는 점
+
+- 의존성 배열을 파라미터로 받는 것은 useMemo와 동일함.
+
+- 파라미터로 받은 함수를 콜백이라고 부름.
+
+```
+const memoizedCallback = useCallback(
+    () => {
+        doSomething(의존성 변수1, 의존성 변수2);
+    },
+    [의존성 변수1, 의존성 변수2]
+);
+```
+
+### useRef
+
+- useRef() 훅은 레퍼런스를 사용하기 위한 훅임.
+
+- 레퍼런스란 특정 컴포넌트에 접근할 수 있는 객체를 의미함.
+
+- useRef() 훅은 바로 이 레퍼런스 객체를 반환함.
+
+- 레퍼런스 객체에는 .current라는 속성이 있는데, 이것은 현재 참조하고 있는 엘리먼트를 의미함.
+
+1. FocusButton.jsx
+
+```
+// FocusButton.jsx
+import { useRef } from "react";
+
+export default function FocusButton (props) {
+    const inputElem = useRef(null)
+
+    const onButtonClock = () => {
+        inputElem.current.focus()
+    }
+    return (
+        <>
+        <input ref={inputElem} type="text" />
+        <button onClick={onButtonClock}>Focus the input</button>
+        </>
+    )
+}
+```
+
+2. Counter.jsx
+
+```
+// Counter.jsx
+import React, { useEffect, useState} from "react"
+
+export default function Counter(props) {
+    // let counter = 0
+    const [count, setCount] = useState(0)
+
+    useEffect(()=>{
+        document.title = `총 ${count}번 클릭했습니다.`
+    })
+
+    return (
+        <>
+            <p>총 {count}</p>
+            <button onClick={() => setCount(count+1)}>
+                클릭
+            </button>
+        </>
+    )
+}
+```
+
+3. WithCounter.jsx
+
+```
+// WithCounter.jsx
+import React, { useEffect, useState} from "react"
+
+export default function WithCounter(props) {
+    // let counter = 0
+    const [count, setCount] = useState(100)
+
+    useEffect(()=>{
+        document.title = `총 ${count}번 클릭했습니다.`
+    })
+
+    const [isOnline, setIsOnline] = useState(null)
+    useEffect(() => {
+        ServerAPI.subscribeUserStatus(props.user.id, handleStatusChange)
+    return () => {
+        ServerAPI.subscribeUserStatus(props.user.id, handleStatusChange)
+    }
+})
+
+// function handleStatusChange{status} {
+//     setIsOnline.status.isOnline
+// }
+
+    return (
+        <>
+            <p>총 {count}</p>
+            <button onClick={() => setCount(count+1)}>
+                클릭
+            </button>
+        </>
+    )
+}
+```
+
+4. MeasureEx.jsx
+
+```
+// MeasureEx.jsx
+import { useCallback, useState } from "react";
+
+export default function MeasureEx(props) {
+    const [height, setHeight] = useState(0)
+    const measureRef = useCallback(node => {
+        if(node != null) {
+        setHeight(node.getBoundingClientRect().height)
+    }
+    }, [])
+    return(
+    <>
+        <h1 ref={measureRef}>안녕, 리액트</h1>
+        <h2>위 헤더의 높이는 {Math.round(height)}px 입니다.</h2>
+    </>
+    )
+}
+```
+
 ## 4월 3일 강의
 
 ### Props 사용법
